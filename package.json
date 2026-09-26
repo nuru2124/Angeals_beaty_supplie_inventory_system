@@ -1,0 +1,20 @@
+{
+  "name": "angales-beauty-inventory-system",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Multi-Branch Beauty Products Inventory Management System - Production Ready",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "server": "node server/index.js",
+    "build": "npm.cmd --prefix client run build",
+    "client": "npm.cmd --prefix client run dev",
+    "dev": "node server/index.js",
+    "init:prod": "node server/db/init-prod.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
+import DemoPitchBar from './components/DemoPitchBar';
 import LoginView from './views/LoginView';
 
 // Views
@@ -229,6 +230,22 @@ export default function App() {
 
       {/* Main Workspace */}
       <div className="main-wrapper">
+        {/* Pitch Demo Bar */}
+        <DemoPitchBar
+          currentUser={currentUser}
+          onSwitchUser={(user) => {
+            setCurrentUser(user);
+            localStorage.setItem('angales_user', JSON.stringify(user));
+            const newDefault = DEFAULT_ROLE_VIEW[user.role] || 'dashboard';
+            setActiveView(newDefault);
+            if (user.role !== 'super_admin' && user.branches?.length === 1) {
+              setActiveBranch(user.branches[0].id);
+            } else {
+              setActiveBranch(null);
+            }
+          }}
+        />
+
         {/* Top Navbar */}
         <Navbar
           branches={branches}

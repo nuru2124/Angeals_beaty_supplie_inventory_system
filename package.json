@@ -7,8 +7,9 @@
   "scripts": {
     "start": "node server/index.js",
     "server": "node server/index.js",
-    "build": "npm.cmd --prefix client run build",
-    "client": "npm.cmd --prefix client run dev",
+    "postinstall": "npm install --prefix client",
+    "build": "npm run build --prefix client",
+    "client": "npm run dev --prefix client",
     "dev": "node server/index.js",
     "init:prod": "node server/db/init-prod.js"
   },

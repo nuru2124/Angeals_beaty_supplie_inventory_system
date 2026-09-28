@@ -294,21 +294,196 @@ export default function LoginView({ onLoginSuccess }) {
             </button>
           </form>
 
+          {/* Pitch Demo 1-Click Role Access */}
+          <div style={{
+            marginTop: '24px',
+            padding: '16px',
+            background: '#f8fafc',
+            borderRadius: '12px',
+            border: '1px dashed #cbd5e1'
+          }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '10px'
+            }}>
+              <span style={{
+                fontSize: '0.75rem',
+                fontWeight: '700',
+                color: '#475569',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px'
+              }}>
+                <Sparkles size={14} color="#c97a63" />
+                <span>Instant Pitch Demo Logins</span>
+              </span>
+              <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>1-Click Sign-in</span>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
+              <button
+                type="button"
+                onClick={() => {
+                  const u = {
+                    id: 1,
+                    name: 'Angales Executive (Super Admin)',
+                    email: 'admin@angales.com',
+                    role: 'super_admin',
+                    phone: '+233 24 111 2233'
+                  };
+                  const t = 'demo_token_super_admin';
+                  localStorage.setItem('angales_token', t);
+                  localStorage.setItem('angales_user', JSON.stringify(u));
+                  onLoginSuccess(u, t);
+                }}
+                style={{
+                  padding: '8px 10px',
+                  borderRadius: '6px',
+                  background: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  color: '#1e293b',
+                  fontSize: '0.78rem',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                }}
+              >
+                <span>👑</span>
+                <span>Super Admin (HQ)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const u = {
+                    id: 3,
+                    name: 'Efua Mensah (POS Cashier)',
+                    email: 'cashier.accra@angales.com',
+                    role: 'cashier',
+                    phone: '+233 24 888 1234',
+                    branches: [{ id: 1, name: 'Angales Beauty Supplies - Accra Flagship' }]
+                  };
+                  const t = 'demo_token_cashier';
+                  localStorage.setItem('angales_token', t);
+                  localStorage.setItem('angales_user', JSON.stringify(u));
+                  onLoginSuccess(u, t);
+                }}
+                style={{
+                  padding: '8px 10px',
+                  borderRadius: '6px',
+                  background: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  color: '#1e293b',
+                  fontSize: '0.78rem',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                }}
+              >
+                <span>💳</span>
+                <span>Sales Cashier (POS)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const u = {
+                    id: 2,
+                    name: 'Kwame Osei-Tutu (Branch Manager)',
+                    email: 'manager.kumasi@angales.com',
+                    role: 'branch_manager',
+                    phone: '+233 20 444 7788',
+                    branches: [{ id: 2, name: 'Angales Beauty Supplies - Kumasi City Mall' }]
+                  };
+                  const t = 'demo_token_manager';
+                  localStorage.setItem('angales_token', t);
+                  localStorage.setItem('angales_user', JSON.stringify(u));
+                  onLoginSuccess(u, t);
+                }}
+                style={{
+                  padding: '8px 10px',
+                  borderRadius: '6px',
+                  background: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  color: '#1e293b',
+                  fontSize: '0.78rem',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                }}
+              >
+                <span>🏢</span>
+                <span>Kumasi Manager</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const u = {
+                    id: 4,
+                    name: 'Kofi Boateng (Inventory Officer)',
+                    email: 'inventory@angales.com',
+                    role: 'inventory_officer',
+                    phone: '+233 24 555 9876'
+                  };
+                  const t = 'demo_token_inventory';
+                  localStorage.setItem('angales_token', t);
+                  localStorage.setItem('angales_user', JSON.stringify(u));
+                  onLoginSuccess(u, t);
+                }}
+                style={{
+                  padding: '8px 10px',
+                  borderRadius: '6px',
+                  background: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  color: '#1e293b',
+                  fontSize: '0.78rem',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                }}
+              >
+                <span>📦</span>
+                <span>Inventory Officer</span>
+              </button>
+            </div>
+          </div>
+
           {/* Secure Environment Notice */}
           <div style={{
-            marginTop: '28px',
-            paddingTop: '20px',
+            marginTop: '20px',
+            paddingTop: '16px',
             borderTop: '1px solid #f1f5f9',
             fontSize: '0.75rem',
             color: '#64748b',
             lineHeight: 1.5,
             textAlign: 'center'
           }}>
-            <p style={{ margin: '0 0 6px 0' }}>
+            <p style={{ margin: '0 0 4px 0' }}>
               🔒 Protected by scrypt password salting & HS256 cryptographic tokens.
             </p>
             <p style={{ margin: 0, color: '#94a3b8' }}>
-              Authorized personnel only. Contact company Super Admin for account access.
+              Pitch Demo Deployment • Ready for Enterprise Evaluation
             </p>
           </div>
         </div>

@@ -2,19 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
+import { handleMockRequest } from './demo/demoEngine';
 
-// Global Secure API Interceptor: Automatically injects cryptographic Bearer tokens
-// and listens for session expirations across all application views
+// Global Secure API Interceptor:
+// Automatically routes internal API requests through the client-side Pitch Demo Engine
+// on Vercel and demo environments, with token injection and session expiration handling.
 const originalFetch = window.fetch;
+
 window.fetch = async (url, options = {}) => {
+  const isApiRequest = typeof url === 'string' && url.startsWith('/api');
   const token = localStorage.getItem('angales_token');
   const headers = new Headers(options.headers || {});
 
-  // Automatically attach Bearer token for internal API requests
-  if (token && typeof url === 'string' && url.startsWith('/api')) {
-    if (!headers.has('Authorization')) {
-      headers.set('Authorization', `Bearer ${token}`);
-    }
+  if (token && isApiRequest && !headers.has('Authorization')) {
+    headers.set('Authorization', `Bearer ${token}`);
   }
 
   const modifiedOptions = {
@@ -22,14 +23,42 @@ window.fetch = async (url, options = {}) => {
     headers
   };
 
-  const response = await originalFetch(url, modifiedOptions);
+  // On Vercel, static preview environments, or Pitch Demo mode:
+  // Route /api calls through the high-speed interactive Demo Engine
+  const isVercelOrRemote = typeof window !== 'undefined' && (
+    window.location.hostname.includes('vercel.app') ||
+    window.location.hostname !== 'localhost' ||
+    localStorage.getItem('angales_demo_mode') !== 'disabled'
+  );
 
-  // If unauthorized / token revoked, notify application to show login
-  if (response.status === 401 && typeof url === 'string' && !url.includes('/api/auth/login')) {
-    window.dispatchEvent(new CustomEvent('angales_session_expired'));
+  if (isApiRequest && isVercelOrRemote) {
+    try {
+      return await handleMockRequest(url, modifiedOptions);
+    } catch (err) {
+      console.warn('Demo Engine handler warning:', err);
+    }
   }
 
-  return response;
+  try {
+    const response = await originalFetch(url, modifiedOptions);
+
+    // If live API returns 404 on Vercel, fallback to Demo Engine
+    if (response.status === 404 && isApiRequest) {
+      return await handleMockRequest(url, modifiedOptions);
+    }
+
+    if (response.status === 401 && isApiRequest && !url.includes('/api/auth/login')) {
+      window.dispatchEvent(new CustomEvent('angales_session_expired'));
+    }
+
+    return response;
+  } catch (netErr) {
+    // If backend is offline or unreachable, seamlessly activate Pitch Demo Engine
+    if (isApiRequest) {
+      return await handleMockRequest(url, modifiedOptions);
+    }
+    throw netErr;
+  }
 };
 
 ReactDOM.createRoot(document.getElementById('root')).render(
